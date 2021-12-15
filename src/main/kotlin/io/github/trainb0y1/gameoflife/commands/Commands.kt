@@ -14,7 +14,7 @@ class Commands : CommandExecutor {
 		}
 		when (args[0].lowercase()) {
 			"create" -> {
-				if (args[1] == null) {
+				if (args.size < 2) {
 					sender.sendMessage("Please input a valid integer!")
 					return false
 				}
@@ -25,8 +25,6 @@ class Commands : CommandExecutor {
 				} catch (e: ClassCastException) {
 					sender.sendMessage("Only players can use this command!")
 				} catch (e: NumberFormatException) {
-					sender.sendMessage("Please input a valid integer!")
-				} catch (e: ArrayIndexOutOfBoundsException) {
 					sender.sendMessage("Please input a valid integer!")
 				}
 				return false
