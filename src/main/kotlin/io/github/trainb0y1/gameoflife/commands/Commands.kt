@@ -26,7 +26,7 @@ class Commands : CommandExecutor {
 					sender.sendMessage("Only players can use this command!")
 				} catch (e: NumberFormatException) {
 					sender.sendMessage("Please input a valid integer!")
-				} catch (e: NullPointerException) {
+				} catch (e: ArrayIndexOutOfBoundsException) {
 					sender.sendMessage("Please input a valid integer!")
 				}
 				return false
