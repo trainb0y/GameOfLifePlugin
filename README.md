@@ -1,2 +1,4 @@
-# PlayerGraves
-A simple Paper plugin that puts players items in chests upon death
+# GameOfLife
+Conway's Game of Life in Minecraft
+
+Requires Paper 1.17 or later
