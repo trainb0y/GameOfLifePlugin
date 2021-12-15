@@ -1,0 +1,19 @@
+main: io.github.trainb0y1.gameoflife.GameOfLife
+name: GameOfLife
+version: 0.1.0-dev
+description: Conway's Game of Life in Minecraft
+api-version: 1.17
+author: trainb0y1
+website: https://github.com/trainb0y1/GameOfLifePlugin
+prefix: GameOfLife
+permissions:
+  gameoflife.create:
+    description: Lets users create a Game Of Life board
+    default: op
+
+commands:
+  gol:
+    description: Game Of Life command
+    usage: /<command> [create]
+    aliases:
+      - gameoflife
