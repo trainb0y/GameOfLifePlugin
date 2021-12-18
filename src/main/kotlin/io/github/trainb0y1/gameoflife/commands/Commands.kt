@@ -32,7 +32,7 @@ class Commands : CommandExecutor {
 			}
 			"translate" -> {
 				return try {
-					plugin.boards[(sender as Player).uniqueId]?.toCoordinate(sender.location)
+					sender.sendMessage(plugin.boards[(sender as Player).uniqueId]?.toCoordinate(sender.location).toString())
 					true
 				} catch (e: ClassCastException) {
 					sender.sendMessage("Only players can use this command!")
