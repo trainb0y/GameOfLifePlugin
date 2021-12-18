@@ -14,6 +14,6 @@ permissions:
 commands:
   gol:
     description: Game Of Life command
-    usage: /<command> [create]
+    usage: /<command> [create|translate]
     aliases:
       - gameoflife

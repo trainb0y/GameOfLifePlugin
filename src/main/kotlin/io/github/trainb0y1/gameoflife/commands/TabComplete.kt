@@ -18,6 +18,7 @@ class TabComplete : TabCompleter {
 				if (sender.hasPermission("gameoflife.create")) {
 					subcommands.add("create")
 				}
+				subcommands.add("translate")
 			}
 		}
 		return subcommands

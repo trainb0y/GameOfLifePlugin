@@ -11,28 +11,37 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 class GameBoard(val origin: Location, val size: Int, player: Player): Listener {
 	var cells = mutableMapOf<Coordinate, Boolean>()
-	val liveBlock = Material.BLACK_WOOL
+	private val liveBlock = Material.BLACK_WOOL
 	var autoAdvance = false
-	var controller = Location(origin.world,origin.x - 1, origin.y, origin.z - 1)
+	var controller = Location(origin.world,origin.x - 1, origin.y, origin.z - 1).block.location // rounds?
 
 
 	init {
 		controller.block.type = Material.LAPIS_BLOCK
 		GameRunnable(this).runTaskTimer(GameOfLife.plugin, 0, 5)
 		plugin.server.pluginManager.registerEvents(this, plugin)
+		plugin.boards[player.uniqueId] = this
+	}
+
+	fun toCoordinate(location: Location): Coordinate {
+		return Coordinate(location.blockX - origin.blockX, location.blockZ - origin.blockZ)
+	}
+
+	fun toLocation(coordinate: Coordinate): Location {
+		return Location(origin.world, origin.x + coordinate.x, origin.y, origin.z + coordinate.y)
 	}
 
 	private fun place(coordinate: Coordinate, block: Material) {
-		Location(origin.world, origin.x + coordinate.x, origin.y, origin.z + coordinate.y).block.type = block
+		toLocation(coordinate).block.type = block
 	}
 	fun get (coordinate: Coordinate): Material {
-		return Location(origin.world, origin.x + coordinate.x, origin.y, origin.z + coordinate.y).block.type
+		return toLocation(coordinate).block.type
 	}
 
 	fun updateCellsFromWorld() {
 		for (x in 0..size){
 			for (y in 0..size) {
-				cells[Coordinate(x,y)] = get(Coordinate(x,y)) == liveBlock
+				cells[Coordinate(x,y)] = (get(Coordinate(x,y)) == liveBlock)
 			}
 		}
 	}
@@ -63,6 +72,7 @@ class GameBoard(val origin: Location, val size: Int, player: Player): Listener {
 				event.player.sendMessage("Auto-advance: ${if (autoAdvance) "on" else "off"}")
 				event.isCancelled = true
 			}
+			event.player.sendMessage(getAliveNeighborCount(toCoordinate(event.clickedBlock!!.location)).toString())
 		}
 	}
 
@@ -83,10 +93,8 @@ class GameBoard(val origin: Location, val size: Int, player: Player): Listener {
 		cells.forEach{ (coord, state) ->
 			when (state) {
 				false -> {
-					when (getAliveNeighborCount(coord)) {
-						3 -> cells[coord] = true
-						else -> cells[coord] = false
-					}
+					if (getAliveNeighborCount(coord) == 3) cells[coord] = true
+
 				}
 				true -> {
 					when (getAliveNeighborCount(coord)) {

@@ -1,6 +1,7 @@
 package io.github.trainb0y1.gameoflife.commands
 
 import io.github.trainb0y1.gameoflife.GameBoard
+import io.github.trainb0y1.gameoflife.GameOfLife.Companion.plugin
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -28,6 +29,15 @@ class Commands : CommandExecutor {
 					sender.sendMessage("Please input a valid integer!")
 				}
 				return false
+			}
+			"translate" -> {
+				return try {
+					plugin.boards[(sender as Player).uniqueId]?.toCoordinate(sender.location)
+					true
+				} catch (e: ClassCastException) {
+					sender.sendMessage("Only players can use this command!")
+					false
+				}
 			}
 			else -> {
 				sender.sendMessage("Unknown command!")
