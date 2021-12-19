@@ -91,20 +91,21 @@ class GameBoard(val origin: Location, val size: Int, player: Player): Listener {
 
 	fun nextGeneration() {
 		// Calculate the next generation
+		val newCells = mutableMapOf<Coordinate, Boolean>()
 		cells.forEach{ (coord, state) ->
 			when (state) {
 				false -> {
-					if (getAliveNeighborCount(coord) == 3) cells[coord] = true
-
+					newCells[coord] = getAliveNeighborCount(coord) == 3
 				}
 				true -> {
 					when (getAliveNeighborCount(coord)) {
-						2, 3 -> cells[coord] = true
-						else -> cells[coord] = false
+						2, 3 -> newCells[coord] = true
+						else -> newCells[coord] = false
 					}
 				}
 			}
 		}
+		cells = newCells
 	}
 
 	fun onDestroy() {

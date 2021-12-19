@@ -24,7 +24,7 @@ class Commands : CommandExecutor {
 					return false
 				}
 				try {
-					GameBoard((sender as Player).location, args[1].toInt(), sender)
+					GameBoard((sender as Player).location.toBlockLocation(), args[1].toInt(), sender)
 					sender.sendMessage("Create game board at ${sender.location} with size ${args[1]}")
 					return true
 				} catch (e: ClassCastException) {
