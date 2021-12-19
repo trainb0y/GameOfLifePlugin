@@ -73,7 +73,6 @@ class GameBoard(val origin: Location, val size: Int, player: Player): Listener {
 				event.player.sendMessage("Auto-advance: ${if (autoAdvance) "on" else "off"}")
 				event.isCancelled = true
 			}
-			event.player.sendMessage(getAliveNeighborCount(toCoordinate(event.clickedBlock!!.location)).toString())
 		}
 	}
 
