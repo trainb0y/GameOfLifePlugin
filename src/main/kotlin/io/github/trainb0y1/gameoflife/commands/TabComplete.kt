@@ -18,6 +18,9 @@ class TabComplete : TabCompleter {
 				if (sender.hasPermission("gameoflife.create")) {
 					subcommands.add("create")
 				}
+				if (sender.hasPermission("gameoflife.destroy")) {
+					subcommands.add("destroy")
+				}
 				subcommands.add("translate")
 			}
 		}

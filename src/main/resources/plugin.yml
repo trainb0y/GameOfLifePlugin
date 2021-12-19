@@ -10,10 +10,13 @@ permissions:
   gameoflife.create:
     description: Lets users create a Game Of Life board
     default: op
+  gameoflife.destroy:
+    description: Lets users destroy a Game Of Life board
+    default: op
 
 commands:
   gol:
     description: Game Of Life command
-    usage: /<command> [create|translate]
+    usage: /<command> [create|translate|destroy]
     aliases:
       - gameoflife

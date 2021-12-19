@@ -15,6 +15,10 @@ class Commands : CommandExecutor {
 		}
 		when (args[0].lowercase()) {
 			"create" -> {
+				if (!sender.hasPermission("gameoflife.create")) {
+					sender.sendMessage("You don't have permission to create a game of life board!!")
+					return false
+				}
 				if (args.size < 2) {
 					sender.sendMessage("Please input a valid integer!")
 					return false
@@ -29,6 +33,26 @@ class Commands : CommandExecutor {
 					sender.sendMessage("Please input a valid integer!")
 				}
 				return false
+			}
+			"destroy" -> {
+				if (!sender.hasPermission("gameoflife.destroy")) {
+					sender.sendMessage("You don't have permission to use this command!")
+					return false
+				}
+				return try {
+					val board: GameBoard? = plugin.boards.remove((sender as Player).uniqueId)
+					if (board == null) {
+						sender.sendMessage("You don't have an active board!")
+						return true
+					}
+					board.onDestroy()
+					sender.sendMessage("Destroyed game board at ${board.origin.toString()} with size ${board.size}")
+					true
+				}
+				catch (e: ClassCastException) {
+					sender.sendMessage("Only players can use this command!")
+					false
+				}
 			}
 			"translate" -> {
 				return try {

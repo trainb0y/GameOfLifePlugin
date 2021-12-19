@@ -14,11 +14,12 @@ class GameBoard(val origin: Location, val size: Int, player: Player): Listener {
 	private val liveBlock = Material.BLACK_WOOL
 	var autoAdvance = false
 	var controller = Location(origin.world,origin.x - 1, origin.y, origin.z - 1).block.location // rounds?
+	val runnable = GameRunnable(this)
 
 
 	init {
 		controller.block.type = Material.LAPIS_BLOCK
-		GameRunnable(this).runTaskTimer(GameOfLife.plugin, 0, 5)
+		runnable.runTaskTimer(GameOfLife.plugin, 0, 5)
 		plugin.server.pluginManager.registerEvents(this, plugin)
 		plugin.boards[player.uniqueId] = this
 	}
@@ -104,5 +105,11 @@ class GameBoard(val origin: Location, val size: Int, player: Player): Listener {
 				}
 			}
 		}
+	}
+
+	fun onDestroy() {
+		// Called when the player destroys the board
+		controller.block.type = Material.AIR
+		runnable.cancel()
 	}
 }
